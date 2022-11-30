@@ -1,0 +1,5 @@
+[Defines]
+DEC_SPECIFICATION              = 0x00010005
+PACKAGE_NAME                   = yzPkg
+PACKAGE_GUID                   = 8656a630-ece9-46a0-a9b2-cf5471eef63a
+PACKAGE_VERSION                = 0.1

@@ -1,0 +1,24 @@
+[Defines]
+    INF_VERSION = 0x00010006
+    BASE_NAME = SmBusDump
+    FILE_GUID = 400fe1cc-d7f1-4c76-88ea-ff5eab9b3dc2
+    MODULE_TYPE = UEFI_APPLICATION
+    VERSION_STRING = 0.1
+    ENTRY_POINT = UefiMain
+
+[Sources]
+    Common.c
+    Common.h 
+    mySmBus.c 
+    mySmBus.h 
+    SmBusDump.c 
+
+[Packages]
+    MdePkg/MdePkg.dec
+
+[LibraryClasses]
+    UefiApplicationEntryPoint
+    UefiLib
+
+[Protocols]
+    gEfiSmbusHcProtocolGuid
