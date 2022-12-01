@@ -3,14 +3,14 @@
 #include "SmBusTools.h"
 
 STATIC CONST SHELL_PARAM_ITEM ParamList[] = {
-  {L"-m", TypeValue},
+  {L"set", TypeFlag},
+  {L"get", TypeFlag},
+  {L"dump", TypeFlag},
   {L"-s", TypeValue},
   {L"-r", TypeValue},
   {L"-v", TypeValue},
   {NULL, TypeMax}
   };
-
-enum SmbusMode{get=0,set=1,dump=2};
 
 EFI_STATUS  
 EFIAPI   
@@ -22,11 +22,11 @@ UefiMain (
     EFI_STATUS      Status;
     LIST_ENTRY      *Package;
     CHAR16          *ProblemParam;
-    CONST CHAR16    *Mode;
+
     CONST CHAR16    *SlaveAdd ;          
     CONST CHAR16    *RegisterAdd; 
     CONST CHAR16    *Value;
-    enum SmbusMode eMode;
+
     UINT8            intSA= 0;        
     UINT8            intRA = 0;
     UINT8            intValue = 0;
@@ -34,14 +34,7 @@ UefiMain (
     ShellInitialize();
     CommandInit();
     Status = ShellCommandLineParse (ParamList, &Package, &ProblemParam, TRUE);
-    if (ShellCommandLineGetFlag(Package, L"-m")) 
-    { 
-        Mode =  ShellCommandLineGetValue(Package, L"-m");
-        if(Mode != NULL)
-        {
-            eMode= (UINT8)ShellStrToUintn(Mode);
-        }
-    }
+    LocateSmBusHc();
     if (ShellCommandLineGetFlag(Package, L"-s")) 
     { 
         SlaveAdd =  ShellCommandLineGetValue(Package, L"-s");
@@ -61,25 +54,21 @@ UefiMain (
     if (ShellCommandLineGetFlag(Package, L"-v")) 
     { 
         Value= ShellCommandLineGetValue(Package, L"-v");
-        if(RegisterAdd != NULL)
+        if(Value != NULL)
         {
-            intValue = (UINT8)ShellStrToUintn(RegisterAdd);
+            intValue = (UINT8)ShellStrToUintn(Value);
         }
     }
-    ShellCommandLineFreeVarList (Package);
-    LocateSmBusHc();
-    switch (eMode){
-        case set:
-            SmBusSet(intSA,intRA,intValue); 
-            break;
-        case get:
-            SmBusGet(intSA,intRA);
-            break;
-        case dump:
-            SmBusDump(intSA);
-            break;
+    if(ShellCommandLineGetFlag(Package, L"set")){
+        SmBusSet(intSA,intRA,intValue);  
     }
+     if(ShellCommandLineGetFlag(Package, L"get")){
+        SmBusGet(intSA,intRA);  
+    }
+     if(ShellCommandLineGetFlag(Package, L"dump")){
+        SmBusDump(intSA);  
+    }
+    ShellCommandLineFreeVarList (Package);
     return EFI_SUCCESS;
-
 
 }
