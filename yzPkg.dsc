@@ -36,8 +36,4 @@
 
 [Components]
     # yzPkg/Applications/HelloWorld/HelloWorld.inf
-    # yzPkg/Applications/SmBusGet/SmBusGet.inf
-    # yzPkg/Applications/SmBusSet/SmBusSet.inf
-    # yzPkg/Applications/SmBusDump/SmBusDump.inf
-    # yzPkg/Applications/ShellCommand/ShellCommand.inf
     yzPkg/Applications/SmBus/SmBus.inf
